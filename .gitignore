@@ -1,0 +1,6 @@
+venv/
+drawing/
+__pycache__/
+*.pdf
+*.aux
+*.log
