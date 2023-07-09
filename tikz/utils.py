@@ -6,19 +6,29 @@ def versor(angle: float) -> np.array:
 
 def get_angle(array: np.array) -> float:
     x, y, _ = array
-    return np.arctan2(y, x)
+    angle = np.arctan2(y, x)
 
-def LLint(A, B, C, D) -> 'Vector':
-    x1, y1 = tuple(A)
-    x2, y2 = tuple(B)
-    x3, y3 = tuple(C)
-    x4, y4 = tuple(D)
+    if angle < 0:
+        angle += 2*np.pi
+    
+    return angle
 
-    t = (x1-x3)*(y3-y4) - (y1-y3)*(x3-x4)
-    t /= (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4)
+def LLint(line1_point1, line1_point2, line2_point1, line2_point2):
+    A = np.array(line1_point1[:2])
+    B = np.array(line1_point2[:2])
+    C = np.array(line2_point1[:2])
+    D = np.array(line2_point2[:2])
 
-    return np.array([x1 + t*(x2-x1), y1 + t*(y2-y1)])
+    dir_1 = B - A
+    dir_2 = D - C
 
+    normal_1 = [- dir_1[1], dir_1[0]]
+    normal_2 = [- dir_2[1], dir_2[0]]
+
+    m = [normal_1, normal_2]
+    b = [np.dot(normal_1, A), np.dot(normal_2, C)]
+
+    return np.append(np.linalg.solve(m, b), 0)
 
 def quaternion_mult(*quats: Sequence[float]) -> np.ndarray:
     quats = iter(quats)
