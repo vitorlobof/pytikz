@@ -17,7 +17,6 @@ def convert_to_svg(basename):
 
     if to_svg.returncode == 0:
         print('Conversion to svg successful.')
-        os.remove(f'{basename}.pdf')
     else:
         print('Conversion to svg failed.')
 
