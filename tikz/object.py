@@ -95,6 +95,12 @@ class Group(TikzObject):
         return self
     
     def rotate(self, angle, axis=(0.0, 0.0, 1.0), about_point=None):
+        if about_point is None:
+            about_point = np.mean(
+                [kobj.get_center() for kobj in self.kobjs])
+        else:
+            about_point = np.array(about_point, dtype=np.float64)
+        
         for kobj in self.kobjs:
             kobj.rotate(angle, axis, about_point)
         return self
