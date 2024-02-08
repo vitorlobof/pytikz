@@ -1,13 +1,14 @@
-from pathlib import Path
 import os
+import importlib
+from pathlib import Path
+
 
 BASE_DIR = Path().parent.parent.resolve()
 BOARD_DIR = os.path.join(BASE_DIR, 'tikz', 'template')
+OUTPUT_DIR = BASE_DIR
 
-if __name__=='__main__':
-    print(
-        BASE_DIR,
-        BOARD_DIR,
-        OUT_DIR,
-        sep='\n'
-    )
+settings_filepath = os.path.join(BASE_DIR, 'settings.py')
+
+if os.path.exists(settings_filepath):
+    module = importlib.import_module('settings')
+    OUTPUT_DIR = getattr(module, 'OUTPUT_DIR')

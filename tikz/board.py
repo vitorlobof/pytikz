@@ -1,9 +1,9 @@
 import os
 import subprocess
-from .settings import BOARD_DIR
+from .settings import BASE_DIR, BOARD_DIR, OUTPUT_DIR
 
 class Board:
-    directory = ''
+    directory = OUTPUT_DIR
     objs = []
 
     header = '\n'.join((
@@ -27,6 +27,16 @@ class Board:
     def construct(self):
         pass
 
+    def rename_file(self):
+        basename = self.__class__.__name__
+        src = os.path.join(BASE_DIR, 'board.pdf')
+        dst = os.path.join(OUTPUT_DIR, self.directory, f'{basename}.pdf')
+
+        if os.path.exists(dst):
+            os.remove(dst)
+        
+        os.rename(src, dst)
+
     def render(self) -> None:
         filepath = os.path.join(BOARD_DIR, 'board.tex')
 
@@ -47,6 +57,8 @@ class Board:
         process = subprocess.Popen(
             ['pdflatex', filepath], stdout=subprocess.DEVNULL)
         process.communicate()
+
+        self.rename_file()
         
         if process.returncode == 0:
             print('LaTeX compilation successful.')
