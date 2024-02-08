@@ -1,8 +1,10 @@
 venv/
 drawing/
+figures/
 __pycache__/
 *.pdf
 *.aux
 *.log
 *.svg
 .vscode
+settings.py
