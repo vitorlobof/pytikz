@@ -3,14 +3,14 @@ import numpy as np
 import copy
 
 from .properties import Points, Kwargs
-from .utils import rotate
+from .utils import rotate, to_array
 
 class TikzObject(Points, Kwargs):
     closed = False
     draw = True
 
     def __init__(self, points, **kw) -> None:
-        self.points = np.array(points, dtype=np.float64)
+        self.points = to_array(points)
         self.kw = {x.replace('_', ' '): y for x, y in kw.items()}
         self.subobjs = []
     
