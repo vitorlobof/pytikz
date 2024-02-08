@@ -77,6 +77,22 @@ class Line(Lines):
         line.add_subobjs(dashed_1, dashed_2)
         self.add_subobjs(line)
         return line
+    
+    def prolong_tail(self, length):
+        self.points[0] -= length*self.get_versor()
+        return self
+
+    def prolong_head(self, length):
+        self.points[1] += length*self.get_versor()
+        return self
+    
+    def prolong(self, length):
+        return self.prolong_tail(length).prolong_head(length)
+
+
+class DashedLine(Line):
+    def __init__(self, tail, head, **kw) -> None:
+        super().__init__(tail, head, dashed=True, **kw)
 
 
 class Arrow(Line):
